@@ -1,4 +1,4 @@
-# load h2o library
+### load h2o library ##########################################################
 library(h2o)
 
 ### set global constants ######################################################
@@ -68,7 +68,7 @@ gbm1 = h2o.gbm(x = X,
                y = y, 
                training_frame = train,
                validation_frame = valid,
-               ntrees = 4000,
+               ntrees = 40,
                model_id = model_id,
                max_depth = 5,
                learn_rate = 0.005, 
@@ -83,7 +83,7 @@ h2o.auc(h2o.performance(gbm1, newdata = valid))
 h2o.auc(h2o.performance(gbm1, newdata = test))
 
 ### save model binary ########################################################
-# h2o.saveModel(gbm1, path = path)
+h2o.saveModel(gbm1, path = path)
 
 ### save POJO (plain old ava object) #########################################
 h2o.download_pojo(model = gbm1, path = path, get_jar = T)
@@ -92,4 +92,5 @@ h2o.download_pojo(model = gbm1, path = path, get_jar = T)
 h2o.download_mojo(model = gbm1, path = path, get_genmodel_jar = T)
 
 ### shutdown h2o server ######################################################
-h2o.shutdown()
+# be careful ... this will erase all of your work!
+# h2o.shutdown()
