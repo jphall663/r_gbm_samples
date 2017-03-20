@@ -5,12 +5,13 @@ library(h2o)
 ip = 'localhost'         # host to connect connect to h2o server
 port = 54321             # port to connect connect to h2o server
 nthreads = - 1           # number of threads to use, -1 indicates max. threads 
-max_mem_size = '12G'     # defines amount of available memory, per node    
+max_mem_size = NULL      # defines amount of available memory, per node    
 dat = NULL               # input data location
 col.names = NULL         # vector contain the column names, ['name1', 'name2', ...]
 col.types = NULL         # vector containing the column types, ['numeric', 'enum', ...]
 X = NULL                 # input variable names
 y = NULL                 # target variable name
+
 weights_column = NULL    # column name for weighting variable 
 seed = 12345             # random seed, increases reproducibility
 path = '/tmp'            # folder location to save java objects
