@@ -2,19 +2,19 @@
 library(h2o)
 
 ### set global constants ######################################################
-ip = 'localhost'         # host to connect connect to h2o server
-port = 54321             # port to connect connect to h2o server
-nthreads = - 1           # number of threads to use, -1 indicates max. threads 
-max_mem_size = NULL      # defines amount of available memory, per node    
-dat = NULL               # input data location
-col.names = NULL         # vector contain the column names, ['name1', 'name2', ...]
-col.types = NULL         # vector containing the column types, ['numeric', 'enum', ...]
-X = NULL                 # input variable names
-y = NULL                 # target variable name
-
-weights_column = NULL    # column name for weighting variable 
-seed = 12345             # random seed, increases reproducibility
-path = '/tmp'            # folder location to save java objects
+ip = 'localhost'            # host to connect connect to h2o server
+port = 54321                # port to connect connect to h2o server
+nthreads = - 1              # number of threads to use, -1 indicates max. threads 
+max_mem_size = NULL         # defines amount of available memory, per node    
+dat = NULL                  # input data location
+col.names = NULL            # vector contain the column names, ['name1', 'name2', ...]
+col.types = NULL            # vector containing the column types, ['numeric', 'enum', ...]
+X = NULL                    # input variable names
+y = NULL                    # target variable name
+build_tree_one_node = TRUE  # force compute onto one node, better for small data
+weights_column = NULL       # column name for weighting variable 
+seed = 12345                # random seed, increases reproducibility
+path = '/tmp'               # folder location to save java objects
 
 
 ### start and connect to h2o server ###########################################
@@ -35,6 +35,7 @@ if (is.null(dat)) {
   
 } else {
   
+  # load data
   dat <- h2o.importFile(dat, 
                         parse = TRUE, 
                         sep = '|', 
@@ -73,6 +74,7 @@ gbm1 = h2o.gbm(x = X,
                learn_rate = 0.005, 
                min_rows = nrow(dat)*0.0025,
                weights_column = weights_column,
+               build_tree_one_node = build_tree_one_node,
                seed = seed)
 
 ### report AUC
