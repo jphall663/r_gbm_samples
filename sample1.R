@@ -16,7 +16,6 @@ weights_column = NULL       # column name for weighting variable
 seed = 12345                # random seed, increases reproducibility
 path = '/tmp'               # folder location to save java objects
 
-
 ### start and connect to h2o server ###########################################
 h2o.init(ip = ip,
          port = port, 
@@ -27,7 +26,7 @@ h2o.init(ip = ip,
 if (is.null(dat)) {
   dat <- h2o.createFrame(rows = 200000, 
                          cols = 25, 
-                         categorical_fraction = 0.2,
+                         categorical_fraction = 0.4,
                          has_response = T,
                          response_factors = 2)
   y = 'response'
@@ -68,7 +67,7 @@ gbm1 = h2o.gbm(x = X,
                y = y, 
                training_frame = train,
                validation_frame = valid,
-               ntrees = 40,
+               ntrees = 4000,
                model_id = model_id,
                max_depth = 5,
                learn_rate = 0.005, 
