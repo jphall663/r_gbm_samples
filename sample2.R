@@ -82,7 +82,7 @@ hyper_params = list(max_depth = c(2, 4, 5, 6, 10),
 ### define search strategy
 # random more efficient 
 search_criteria = list(strategy = 'RandomDiscrete',
-                       max_models = 2, 
+                       max_models = 20, 
                        max_runtime_secs = 3600,         
                        seed = seed,                        
                        stopping_rounds = 5,                
