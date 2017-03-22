@@ -82,7 +82,7 @@ hyper_params = list(max_depth = c(2, 4, 5, 6, 10),
 ### define search strategy
 # random more efficient 
 search_criteria = list(strategy = 'RandomDiscrete',
-                       max_models = 20, 
+                       max_models = 2, 
                        max_runtime_secs = 3600,         
                        seed = seed,                        
                        stopping_rounds = 5,                
@@ -119,6 +119,10 @@ gbm2
 h2o.auc(h2o.performance(gbm2, newdata = train))
 h2o.auc(h2o.performance(gbm2, newdata = valid))
 h2o.auc(h2o.performance(gbm2, newdata = test))
+
+### create partial dependence plots ##########################################
+# excellent tool for model interpretation
+h2o.partialPlot(gbm2, train, c('C1'), nbins = 20, plot = TRUE)
 
 ### save model binary ########################################################
 h2o.saveModel(gbm2, path = model_path)
