@@ -157,17 +157,22 @@ sort_grid_capture <- function(grid, metric_type) {
   
 }
 
-df_capture_rate_sorted <- sort_grid_capture(gbm_grid, "training")
+df_capture_rate_sorted <- sort_grid_capture(grid, 'training')
 df_capture_rate_sorted
 
+grid_models <- lapply(grid@model_ids, function(model_id) { model = h2o.getModel(model_id) })
+best_model <- NULL # set to best model from df_capture_rate_sorted
+
+gbm3 <- grid_models[[best_model]]
+
 ### save model binary ########################################################
-h2o.saveModel(gbm2, path = model_path)
+h2o.saveModel(gbm3, path = model_path)
 
 ### save POJO (plain old java object) ########################################
-h2o.download_pojo(model = gbm2, path = java_path, get_jar = T)
+h2o.download_pojo(model = gbm3, path = java_path, get_jar = T)
 
 ### save MOJO (model-optimized java object) ##################################
-h2o.download_mojo(model = gbm2, path = java_path, get_genmodel_jar = T)
+h2o.download_mojo(model = gbm3, path = java_path, get_genmodel_jar = T)
 
 ### shutdown h2o server ######################################################
 # be careful ... this will erase all of your work!
