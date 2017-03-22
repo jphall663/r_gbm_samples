@@ -160,10 +160,9 @@ sort_grid_capture <- function(grid, metric_type) {
 df_capture_rate_sorted <- sort_grid_capture(grid, 'training')
 df_capture_rate_sorted
 
-grid_models <- lapply(grid@model_ids, function(model_id) { model = h2o.getModel(model_id) })
-best_model <- NULL # set to best model from df_capture_rate_sorted
+best_model_id <- NULL # set to best model from df_capture_rate_sorted
 
-gbm3 <- grid_models[[best_model]]
+gbm3 <- h2o.getModel(best_model_id)
 
 ### save model binary ########################################################
 h2o.saveModel(gbm3, path = model_path)
