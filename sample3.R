@@ -1,3 +1,8 @@
+### sample3.R #################################################################
+# example grid search code 
+# w/ custom model assessment function 
+# ranks models in grid by capture rate at 1%
+
 ### load h2o library ##########################################################
 library(h2o)
 
@@ -82,7 +87,7 @@ hyper_params = list(max_depth = c(2, 4, 5, 6, 10),
 ### define search strategy
 # random more efficient 
 search_criteria = list(strategy = 'RandomDiscrete',
-                       max_models = 20, 
+                       max_models = 2, 
                        max_runtime_secs = 3600,         
                        seed = seed,                        
                        stopping_rounds = 5,                
@@ -107,10 +112,9 @@ grid <- h2o.grid('gbm',
 grid
 
 ### find 1% capture rate ######################################################
-# sort grid capture
-# takes a grid and specify the metric type.
-# returns a data frame with model_ids and 1% capture rate
-# sorted by capture rate (decreasing)
+# sort grid by decreasing capture rate
+# takes a grid and specify the metric type
+# returns a data frame with model_ids, 1% capture rate, and other metrics
 sort_grid_capture <- function(grid, metric_type) {
   
   # get a list of models from the grid
@@ -160,9 +164,10 @@ sort_grid_capture <- function(grid, metric_type) {
 df_capture_rate_sorted <- sort_grid_capture(grid, 'training')
 df_capture_rate_sorted
 
-best_model_id <- NULL # set to best model from df_capture_rate_sorted
-
+# set to best model from df_capture_rate_sorted
+best_model_id <- as.character(df_capture_rate_sorted[1,1])
 gbm3 <- h2o.getModel(best_model_id)
+gbm3
 
 ### save model binary ########################################################
 h2o.saveModel(gbm3, path = model_path)

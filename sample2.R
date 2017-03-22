@@ -1,3 +1,7 @@
+### sample2.R #################################################################
+# example grid search code 
+# with partial dependence plots for increased model interpretability
+
 ### load h2o library ##########################################################
 library(h2o)
 
